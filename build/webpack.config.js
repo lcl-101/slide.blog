@@ -1,23 +1,57 @@
+const fs = require("fs");
 const path = require('path');
+const glob = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-console.log(__dirname);
 const ROOT_PATH = path.resolve(__dirname); //源码目录
 const VIEWS_PATH = path.resolve(__dirname, '../static/view/'); //模板目录
-console.log(ROOT_PATH);
+const JS_PATH = path.resolve(__dirname, '../static/module/'); //模板目录
 
 //生成环境
 const NODE_ENV = process.env.NODE_ENV;
-console.log(NODE_ENV);
+
+// 页面入口
+const pageEntry = {};
+// 页面模板
+const pageHtml = [];
+//入口页面
+const pages = fs.readdirSync(VIEWS_PATH);
+console.log(pages);
+pages.forEach((name, index) => {
+    //入口路径
+    const entryPath = path.join(VIEWS_PATH, name);
+    //入口js
+    pageEntry[name] = path.join(JS_PATH, `${name}/${name}.js`);
+    // 输出页面模板
+    pageHtml.push(new HtmlWebpackPlugin({
+        entryName: name,
+        template: `${entryPath}/${name}.html`,
+        filename: `views/${name}/${name}.html`,
+        inject:'body',
+        chunks: [name]
+    }));
+});
+
+console.log(pageEntry);
 
 module.exports = {
-    entry: path.resolve(__dirname, '../static/module/index/index.js'),
+    entry: Object.assign(pageEntry, {
+
+    }),
     output: {
         path: path.resolve(__dirname, '../dist/'),
-        filename: "index.js"
+        publicPath: '/dist/',
+        filename: "[name]/[name].[chunkhash].js",
+        chunkFilename:'[name].[chunkhash].bundle.js'
     },
     mode: NODE_ENV,
+    devServer:{
+        contentBase:"./dist",
+        historyApiFallback: true,
+        inline: true,
+        open: true
+    },
     plugins: [
-        new HtmlWebpackPlugin({template: VIEWS_PATH + '/index/index.html'})
-    ]
+
+    ].concat(pageHtml)
 };
