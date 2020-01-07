@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require('path');
-const glob = require('glob');
+const config = require('../config/index');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname); //源码目录
@@ -40,7 +40,7 @@ module.exports = {
     }),
     output: {
         path: path.resolve(__dirname, '../dist/'),
-        publicPath: '/dist/',
+        publicPath: config.build.publicPath,
         filename: "[name]/[name].[chunkhash].js",
         chunkFilename:'[name].[chunkhash].bundle.js'
     },
