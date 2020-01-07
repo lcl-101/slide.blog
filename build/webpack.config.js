@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require('path');
+const merge = require('webpack-merge');
 const config = require('../config/index');
+const baseConfig = require('./webpack.base.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = path.resolve(__dirname); //源码目录
@@ -21,7 +23,7 @@ pages.forEach((name, index) => {
     //入口路径
     const entryPath = path.join(VIEWS_PATH, name);
     //入口js
-    pageEntry[name] = path.join(JS_PATH, `${name}/${name}.js`);
+    pageEntry[name] = path.join(JS_PATH, `${name}/${name}.ts`);
     // 输出页面模板
     pageHtml.push(new HtmlWebpackPlugin({
         entryName: name,
@@ -34,7 +36,7 @@ pages.forEach((name, index) => {
 
 console.log(pageEntry);
 
-module.exports = {
+module.exports = merge(baseConfig,{
     entry: Object.assign(pageEntry, {
 
     }),
@@ -54,4 +56,4 @@ module.exports = {
     plugins: [
 
     ].concat(pageHtml)
-};
+});
