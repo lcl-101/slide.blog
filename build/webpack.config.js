@@ -23,7 +23,7 @@ pages.forEach((name, index) => {
     //入口路径
     const entryPath = path.join(VIEWS_PATH, name);
     //入口js
-    pageEntry[name] = path.join(JS_PATH, `${name}/${name}.ts`);
+    pageEntry[name] = path.join(JS_PATH, `${name}/${name}.tsx`);
     // 输出页面模板
     pageHtml.push(new HtmlWebpackPlugin({
         entryName: name,

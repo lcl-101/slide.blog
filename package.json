@@ -12,12 +12,17 @@
   "author": "lichenglong",
   "license": "ISC",
   "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "babel-loader": "^8.0.6",
     "fs": "0.0.1-security",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^3.2.0",
